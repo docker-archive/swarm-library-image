@@ -19,7 +19,7 @@ echo "Updating certificates..."
 echo "Fetching and building swarm $VERSION..."
 
 # Create a temporary directory.
-TEMP=`mktemp -d -t swarm`
+TEMP=`mktemp -d`
 
 git clone -b $VERSION https://github.com/docker/swarm.git $TEMP
 docker build -t swarm-builder $TEMP
