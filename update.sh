@@ -34,4 +34,19 @@ docker cp $ID:/go/bin/swarm .
 docker rm -f $ID
 docker rmi swarm-builder
 
+echo "Building swarm.exe $VERSION..."
+
+docker build -t swarm-builder:windows --build-arg GOOS=windows $TEMP
+
+# Create a dummy swarmbuild container so we can run a cp against it.
+ID=$(docker create swarm-builder:windows)
+
+# Update the local binary.
+docker cp $ID:/go/bin/windows_amd64/swarm.exe .
+mv swarm.exe swarm-unsupported.exe
+
+# Cleanup.
+docker rm -f $ID
+docker rmi swarm-builder:windows
+
 echo "Done."
