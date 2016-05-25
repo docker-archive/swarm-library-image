@@ -7,6 +7,8 @@ if [ $# -eq 0 ] ; then
 	exit
 fi
 
+SWARM_REPO=${SWARM_REPO-https://github.com/docker/swarm.git}
+
 VERSION=$1
 
 # cd to the current directory so the script can be run from anywhere.
@@ -21,7 +23,7 @@ echo "Fetching and building swarm $VERSION..."
 # Create a temporary directory.
 TEMP=`mktemp -d`
 
-git clone -b $VERSION https://github.com/docker/swarm.git $TEMP
+git clone -b $VERSION $SWARM_REPO $TEMP
 docker build -t swarm-builder $TEMP
 
 # Create a dummy swarmbuild container so we can run a cp against it.
